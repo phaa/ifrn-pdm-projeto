@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  ScrollView
+} from 'react-native';
+
+// Componentes
 import Task from './components/Task';
 
-export default function App() {
+const App = () => {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
 
@@ -30,20 +42,12 @@ export default function App() {
 
         {/* Tarefas de hoje */}
         <View style={styles.tasksWrapper}>
-          <Text style={styles.sectionTitle}>A fazer</Text>
+          <Text style={styles.sectionTitle}>A fazer:</Text>
           <View style={styles.items}>
-            {/* Aqui qyue as tarefas serão renderizadas, substituir por flatlist */}
             {
-              taskItems.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => completeTask(index)}
-                  >
-                    <Task text={item} />
-                  </TouchableOpacity>
-                )
-              })
+              taskItems.map((item, index) => (
+                <Task key={index} text={item} onLongPress={() => completeTask(index)}/>
+              ))
             }
           </View>
         </View>
@@ -65,7 +69,7 @@ export default function App() {
           onPress={() => handleAddTask()}
         >
           <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
+            <FontAwesome5 name="plus" size={24} color="white" />
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -85,7 +89,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
   },
   items: {
     marginTop: 30,
@@ -93,19 +98,20 @@ const styles = StyleSheet.create({
   writeTaskWrapper: {
     position: 'absolute',
     bottom: 20,
+    paddingHorizontal: 20,
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
     backgroundColor: '#FFF',
     borderRadius: 14,
-    width: 290,
-    fontSize: 20,
-    elevation: 3
+    width: 293,
+    fontSize: 18,
+    elevation: 3,
   },
   addWrapper: {
     width: 60,
@@ -114,7 +120,6 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    
     elevation: 3
   },
   addText: {
@@ -122,3 +127,5 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
 });
+
+export default App;
